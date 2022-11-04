@@ -1,4 +1,4 @@
-"""Simple package to apply the Ramer-Douglas-Peuker algorithm"""
+"""Simple package to apply the Ramer-Douglas-Peucker algorithm"""
 from __future__ import annotations
 
 from typing import TypeVar
