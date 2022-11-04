@@ -6,7 +6,7 @@ from typing import TypeVar
 import numpy as np
 import numpy.typing as npt
 
-Array = TypeVar("Array", npt.NDArray[float], list[float])
+Array = TypeVar("Array", npt.NDArray, list)
 
 
 def _compute_distances(
@@ -20,9 +20,14 @@ def _compute_distances(
 
     :return: Points distance to the line.
     """
-    if (line_length := np.linalg.norm(end - start)) == 0:
-        return np.linalg.norm(points - start, axis=1)
-    return abs(np.cross(end - start, start - points)) / line_length
+    line = end - start
+    if (line_length := np.linalg.norm(line)) == 0:
+        return np.linalg.norm(points - start, axis=-1)
+    if line.size == 2:
+        return abs(np.cross(line, start - points)) / line_length  # 2D case
+    return (
+        abs(np.linalg.norm(np.cross(line, start - points), axis=-1)) / line_length
+    )  # 3D case
 
 
 def _rdp(points: npt.NDArray[float], epsilon: float) -> npt.NDArray[float]:
@@ -33,6 +38,8 @@ def _rdp(points: npt.NDArray[float], epsilon: float) -> npt.NDArray[float]:
         start_index, last_index = stack.pop()
 
         local_points = points[indices][start_index + 1 : last_index]
+        if len(local_points) == 0:
+            continue
         distances = _compute_distances(
             local_points, points[start_index], points[last_index]
         )
@@ -44,7 +51,7 @@ def _rdp(points: npt.NDArray[float], epsilon: float) -> npt.NDArray[float]:
             stack.append([index_max, last_index])
         else:
             indices[start_index + 1 : last_index] = False
-    return indices
+    return points[indices]
 
 
 def rdp(points: Array, epsilon: float) -> Array:
@@ -58,6 +65,6 @@ def rdp(points: Array, epsilon: float) -> Array:
     """
     if isinstance(points, list):
         result = _rdp(np.array(points), epsilon).tolist()
-        assert isinstance(result, list) and isinstance(result[0], float)
+        assert isinstance(result, list)
         return result
     return _rdp(points, epsilon)
