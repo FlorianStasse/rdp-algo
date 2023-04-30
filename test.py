@@ -3,7 +3,7 @@ import numpy as np
 import numpy.testing as npt
 import pytest
 
-from rdp_algo import rdp
+from pyrdp import rdp
 
 
 @pytest.fixture(name="seesaw")

@@ -1,17 +1,19 @@
 """Simple package to apply the Ramer-Douglas-Peucker algorithm"""
 from __future__ import annotations
 
-from typing import TypeVar
+from typing import TYPE_CHECKING
 
 import numpy as np
-import numpy.typing as npt
 
-Array = TypeVar("Array", npt.NDArray, list)
+if TYPE_CHECKING:
+    import numpy.typing as npt
 
 
 def _compute_distances(
-    points: npt.NDArray[float], start: npt.NDArray[float], end: npt.NDArray[float]
-) -> npt.NDArray[float]:
+    points: npt.NDArray[np.float_],
+    start: npt.NDArray[np.float_],
+    end: npt.NDArray[np.float_],
+) -> npt.NDArray[np.float_]:
     """Compute the distances between all points and the line defined by start and end.
 
     :param points: Points to compute distance for.
@@ -30,7 +32,7 @@ def _compute_distances(
     )  # 3D case
 
 
-def _rdp(points: npt.NDArray[float], epsilon: float) -> npt.NDArray[float]:
+def _rdp(points: npt.NDArray[np.float_], epsilon: float) -> npt.NDArray[np.float_]:
     stack = [[0, len(points) - 1]]
     indices = np.ones(len(points), dtype=bool)
 
@@ -54,7 +56,7 @@ def _rdp(points: npt.NDArray[float], epsilon: float) -> npt.NDArray[float]:
     return points[indices]
 
 
-def rdp(points: Array, epsilon: float) -> Array:
+def rdp(points: npt.ArrayLike, epsilon: float) -> npt.ArrayLike:
     """Simplifies a list or an array of points using the Ramer-Douglas-Peucker
     algorithm.
 
@@ -63,8 +65,7 @@ def rdp(points: Array, epsilon: float) -> Array:
 
     :return: Simplified list of points.
     """
-    if isinstance(points, list):
+    if not isinstance(points, np.ndarray):
         result = _rdp(np.array(points), epsilon).tolist()
-        assert isinstance(result, list)
         return result
     return _rdp(points, epsilon)
