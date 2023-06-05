@@ -4,11 +4,6 @@ repos:
     hooks:
     - id: black
       pass_filenames: true
--   repo: https://github.com/PyCQA/flake8
-    rev: 5.0.4
-    hooks:
-    - id: flake8
-      pass_filenames: true
 -   repo: https://github.com/pre-commit/mirrors-pylint
     rev: 'v3.0.0a5'  # Use the sha / tag you want to point at
     hooks:

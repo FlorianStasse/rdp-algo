@@ -56,7 +56,7 @@ def _rdp(points: npt.NDArray[np.float_], epsilon: float) -> npt.NDArray[np.float
     return points[indices]
 
 
-def rdp(points: npt.ArrayLike, epsilon: float) -> npt.ArrayLike:
+def rdp(points: npt.ArrayLike, epsilon: float) -> npt.NDArray[np.float_]:
     """Simplifies a list or an array of points using the Ramer-Douglas-Peucker
     algorithm.
 
@@ -66,6 +66,5 @@ def rdp(points: npt.ArrayLike, epsilon: float) -> npt.ArrayLike:
     :return: Simplified list of points.
     """
     if not isinstance(points, np.ndarray):
-        result = _rdp(np.array(points), epsilon).tolist()
-        return result
+        return _rdp(np.array(points), epsilon)
     return _rdp(points, epsilon)
