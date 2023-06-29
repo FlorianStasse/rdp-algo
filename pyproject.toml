@@ -6,13 +6,13 @@ dev = [
 ]
 [project]
 name = "pyrdp"
-version = "0.1.4"
+version = "0.1.5"
 description = "Simple Rammer-Douglas-Peuker algorithm implementation."
 authors = [
     {name = "Florian Stasse", email = "f.stasse@skipperndt.com"},
 ]
 dependencies = [
-    "numpy>=1.24.3",
+    "numpy>=1.23.4",
 ]
 requires-python = ">=3.8"
 readme = "README.md"

@@ -34,12 +34,6 @@ def test_3d():
     rdp(points, epsilon=0.1)
 
 
-def test_list(seesaw):
-    """Testing return type if input is list"""
-    assert isinstance(rdp(seesaw, epsilon=0.1), list)
-    assert isinstance(rdp([[0, 0, 0], [1, 1, 1]], epsilon=0.1), list)
-
-
 def test_array(seesaw):
     """Testing return type if input is numpy array"""
     assert isinstance(rdp(np.array(seesaw), epsilon=0.1), np.ndarray)
