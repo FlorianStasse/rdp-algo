@@ -13,7 +13,7 @@ readme = "README.md"
 license = { text = "MIT" }
 
 [project.urls]
-Repository = "https://github.com/flowake/rdp-algo/"
+Repository = "https://github.com/FlorianStasse/rdp-algo/"
 
 [build-system]
 requires = ["pdm-backend"]
