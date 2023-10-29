@@ -32,7 +32,7 @@ def _compute_distances(
     )  # 3D case
 
 
-def _rdp(points: npt.NDArray[np.float_], epsilon: float) -> npt.NDArray[np.float_]:
+def _mask(points: npt.NDArray[np.float_], epsilon: float) -> npt.NDArray[np.float_]:
     stack = [[0, len(points) - 1]]
     indices = np.ones(len(points), dtype=bool)
 
@@ -53,18 +53,30 @@ def _rdp(points: npt.NDArray[np.float_], epsilon: float) -> npt.NDArray[np.float
             stack.append([index_max, last_index])
         else:
             indices[start_index + 1 : last_index] = False
-    return points[indices]
+    return indices
 
 
-def rdp(points: npt.ArrayLike, epsilon: float) -> npt.NDArray[np.float_]:
+def _rdp(
+    points: npt.NDArray[np.float_], epsilon: float, *, return_mask=False
+) -> npt.NDArray[np.float_]:
+    mask = _mask(points, epsilon)
+    if return_mask:
+        return mask
+    return points[mask]
+
+
+def rdp(
+    points: npt.ArrayLike, epsilon: float, *, return_mask=False
+) -> npt.NDArray[np.float_]:
     """Simplifies a list or an array of points using the Ramer-Douglas-Peucker
     algorithm.
 
     :param points: Array of points (Nx2)
     :param epsilon: epsilon in the rdp algorithm
+    :param return_mask: If True, returns the mask used to filter the points.
 
-    :return: Simplified list of points.
+    :return: Simplified array of points, or mask if return_mask is True.
     """
     if not isinstance(points, np.ndarray):
-        return _rdp(np.array(points), epsilon)
-    return _rdp(points, epsilon)
+        return _rdp(np.array(points), epsilon, return_mask=return_mask)
+    return _rdp(points, epsilon, return_mask=return_mask)

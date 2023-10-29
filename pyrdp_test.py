@@ -48,3 +48,9 @@ def test_small_epsilon(seesaw: list):
 def test_big_epsilon(seesaw: list):
     """Testing big epsilon which simplifies everything"""
     npt.assert_array_equal(rdp(seesaw, epsilon=10), [[0, 0], [3, 1]])
+
+
+def test_mask(seesaw: list):
+    npt.assert_array_equal(
+        rdp(seesaw, epsilon=10, return_mask=True), [True, False, False, True]
+    )
