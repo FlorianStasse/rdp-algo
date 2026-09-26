@@ -8,6 +8,10 @@ import numpy as np
 if TYPE_CHECKING:
     import numpy.typing as npt
 
+# Using the proposed substitute function for the 2D case
+# https://numpy.org/doc/2.4/reference/generated/numpy.cross.html
+def cross2d(x, y):
+    return x[..., 0] * y[..., 1] - x[..., 1] * y[..., 0]
 
 def _compute_distances(
     points: npt.NDArray[np.float_],
@@ -26,7 +30,7 @@ def _compute_distances(
     if (line_length := np.linalg.norm(line)) == 0:
         return np.linalg.norm(points - start, axis=-1)
     if line.size == 2:
-        return abs(np.cross(line, start - points)) / line_length  # 2D case
+        return abs(cross2d(line, start - points)) / line_length  # 2D case
     return (
         abs(np.linalg.norm(np.cross(line, start - points), axis=-1)) / line_length
     )  # 3D case
