@@ -1,16 +1,4 @@
 repos:
--   repo: https://github.com/psf/black
-    rev: 22.10.0
-    hooks:
-    - id: black
-      pass_filenames: true
--   repo: https://github.com/pre-commit/mirrors-pylint
-    rev: 'v3.0.0a5'  # Use the sha / tag you want to point at
-    hooks:
-    - id: pylint
-      exclude: setup.py
-      args:
-        -  --disable=E0401
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.3.0
     hooks:
@@ -20,14 +8,9 @@ repos:
     - id: trailing-whitespace
     - id: debug-statements
     - id: mixed-line-ending
--   repo: https://github.com/asottile/pyupgrade
-    rev: v3.2.0
+-   repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.16.10
     hooks:
-    - id: pyupgrade
-      args: ["--py38-plus"]
--   repo: https://github.com/PyCQA/isort
-    rev: 5.10.1
-    hooks:
-    -   id: isort
-        additional_dependencies:
-            - toml
+    - id: ruff-check
+      args: [--fix]
+    - id: ruff-format

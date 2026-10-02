@@ -1,4 +1,5 @@
 """Simple package to apply the Ramer-Douglas-Peucker algorithm"""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -8,10 +9,12 @@ import numpy as np
 if TYPE_CHECKING:
     import numpy.typing as npt
 
+
 # Using the proposed substitute function for the 2D case
 # https://numpy.org/doc/2.4/reference/generated/numpy.cross.html
 def cross2d(x, y):
     return x[..., 0] * y[..., 1] - x[..., 1] * y[..., 0]
+
 
 def _compute_distances(
     points: npt.NDArray[np.float_],
